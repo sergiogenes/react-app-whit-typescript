@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
-import axios from 'axios'
 import { List } from './components/List'
 import { Form } from './components/Form'
-import { usersResponseFromApi, type Sub } from './types'
+import { type Sub } from './types'
 import './App.css'
+import { getAllSubs } from './services/getAllSubs'
 /* 
 const INITIAL_STATE = [
   {
@@ -28,25 +28,7 @@ function App(): JSX.Element {
   const divRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const fetchUsers = (): Promise<usersResponseFromApi> => {
-      return axios
-        .get('https://dummyjson.com/users')
-        .then((res) => res.data)
-        .then((users) => users.users)
-    }
-
-    const mapUsersToSubs = (users: usersResponseFromApi): Array<Sub> => {
-      return users.map((user) => {
-        return {
-          nick: user.username,
-          subMonths: user.age,
-          avatar: user.image,
-          description: `${user.firstName} ${user.lastName}`,
-        }
-      })
-    }
-
-    fetchUsers().then(mapUsersToSubs).then(setSubs)
+    getAllSubs().then(setSubs)
   }, [])
 
   const handleNewSubs = (newSub: Sub): void => {

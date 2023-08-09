@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { List } from './components/List'
 import { Form } from './components/Form'
-import { type Sub } from './types'
+import { usersResponseFromApi, type Sub } from './types'
 import './App.css'
-
+/* 
 const INITIAL_STATE = [
   {
     nick: 'dapelu',
@@ -16,7 +16,7 @@ const INITIAL_STATE = [
     subMonths: 7,
     avatar: 'https://i.pravatar.cc/150?u=sergio_serrano',
   },
-]
+] */
 
 interface AppState {
   subs: Sub[]
@@ -27,7 +27,24 @@ function App(): JSX.Element {
   const divRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    setSubs(INITIAL_STATE)
+    const fetchUsers = (): Promise<usersResponseFromApi> => {
+      return fetch('https://dummyjson.com/users')
+        .then((res) => res.json())
+        .then((users) => users.users)
+    }
+
+    const mapUsersToSubs = (users: usersResponseFromApi): Array<Sub> => {
+      return users.map((user) => {
+        return {
+          nick: user.username,
+          subMonths: user.age,
+          avatar: user.image,
+          description: `${user.firstName} ${user.lastName}`,
+        }
+      })
+    }
+
+    fetchUsers().then(mapUsersToSubs).then(setSubs)
   }, [])
 
   const handleNewSubs = (newSub: Sub): void => {

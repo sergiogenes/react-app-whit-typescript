@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import axios from 'axios'
 import { List } from './components/List'
 import { Form } from './components/Form'
 import { usersResponseFromApi, type Sub } from './types'
@@ -28,8 +29,9 @@ function App(): JSX.Element {
 
   useEffect(() => {
     const fetchUsers = (): Promise<usersResponseFromApi> => {
-      return fetch('https://dummyjson.com/users')
-        .then((res) => res.json())
+      return axios
+        .get('https://dummyjson.com/users')
+        .then((res) => res.data)
         .then((users) => users.users)
     }
 

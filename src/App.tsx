@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { List } from './components/List'
 import { Form } from './components/Form'
 import { type Sub } from './types'
@@ -24,6 +24,7 @@ interface AppState {
 
 function App(): JSX.Element {
   const [subs, setSubs] = useState<AppState['subs']>([])
+  const divRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     setSubs(INITIAL_STATE)
@@ -33,7 +34,7 @@ function App(): JSX.Element {
     setSubs([...subs, newSub])
   }
   return (
-    <div className='App'>
+    <div className='App' ref={divRef}>
       <h1>midu subs</h1>
       <List subs={subs} />
       <Form onNewSub={handleNewSubs} />

@@ -32,6 +32,10 @@ export const Form = ({ onNewSub }: Props) => {
     setInputValues({ ...inputValues, [event.target.name]: event.target.value })
   }
 
+  const handleClick = () => {
+    setInputValues(INITIAL_STATE)
+  }
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -62,6 +66,9 @@ export const Form = ({ onNewSub }: Props) => {
           placeholder='description'
           onChange={handleChange}
         />
+        <button type='button' onClick={handleClick}>
+          Clear the Form
+        </button>
         <button type='submit'>Save new Subs!</button>
       </form>
     </div>
